@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Stock Intelligence Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fas fa-chart-line"></i>
+            <span>StockIntel</span>
+        </div>
+
+        <nav class="menu">
+
+            <a href="#dashboard-section" class="active">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+
+            <a href="#companies-section">
+                <i class="fas fa-building"></i>
+                Companies
+            </a>
+
+            <a href="#compare-section">
+                <i class="fas fa-chart-bar"></i>
+                Compare
+            </a>
+
+            <a id="analytics-btn">
+                <i class="fas fa-chart-pie"></i>
+                Analytics
+            </a>
+
+            <a id="settings-btn">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+
+        </nav>
+
+        <!-- Profile -->
+        <div class="profile-card"
+            id="profile-btn">
+
+            <div class="avatar">
+                DY
+            </div>
+
+            <div>
+                <h4 id="profile-name">
+                    Deva Y.
+                </h4>
+
+                <p id="profile-role">
+                    Developer
+                </p>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content"
+        id="dashboard-section">
+
+        <!-- Navbar -->
+        <header class="topbar">
+
+            <div class="search-box">
+
+                <i class="fas fa-search"></i>
+
+                <input
+                    type="text"
+                    placeholder="Search company..."
+                    id="search-input">
+
+            </div>
+
+            <div class="top-actions">
+
+                <div class="market-status">
+                    <span class="dot"></span>
+                    Market Open
+                </div>
+
+                <i class="far fa-bell"
+                    id="notification-btn"></i>
+
+                <button class="trade-btn"
+                    id="trade-btn">
+
+                    Trade Now
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- Companies -->
+        <section class="company-selector"
+            id="companies-section">
+
+            <button class="selector-btn active"
+                onclick="loadStockData('TCS', this)">
+                TCS
+            </button>
+
+            <button class="selector-btn"
+                onclick="loadStockData('INFY', this)">
+                INFY
+            </button>
+
+            <button class="selector-btn"
+                onclick="loadStockData('RELIANCE', this)">
+                RELIANCE
+            </button>
+
+            <button class="selector-btn"
+                onclick="loadStockData('HDFCBANK', this)">
+                HDFCBANK
+            </button>
+
+        </section>
+
+
+        <!-- Stats -->
+        <section class="stats-grid">
+
+            <div class="card">
+                <p>Current Price</p>
+                <h2 id="current-price">
+                    ₹0
+                </h2>
+
+                <span id="price-change">
+                    0%
+                </span>
+            </div>
+
+            <div class="card">
+                <p>Volume</p>
+
+                <h2 id="stock-volume">
+                    0
+                </h2>
+            </div>
+
+            <div class="card">
+                <p>52W High</p>
+
+                <h2 id="high-52">
+                    ₹0
+                </h2>
+            </div>
+
+            <div class="card">
+                <p>52W Low</p>
+
+                <h2 id="low-52">
+                    ₹0
+                </h2>
+            </div>
+
+        </section>
+
+
+        <!-- Chart -->
+        <section class="chart-card">
+
+            <div class="chart-title">
+
+                <h2>
+
+                    Market Analysis
+                    (<span id="active-symbol">
+                        TCS
+                    </span>)
+
+                </h2>
+
+            </div>
+
+            <div class="chart-container">
+
+                <canvas id="mainChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- Compare -->
+        <section class="compare-card"
+            id="compare-section">
+
+            <h2>Compare Stocks</h2>
+
+            <select id="compare-select">
+
+                <option value="INFY">
+                    INFY
+                </option>
+
+                <option value="RELIANCE">
+                    RELIANCE
+                </option>
+
+                <option value="HDFCBANK">
+                    HDFCBANK
+                </option>
+
+            </select>
+
+            <button onclick="compareStocks()">
+                Compare
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- Notifications -->
+    <div id="notification-panel"
+        class="notification-panel hidden">
+
+        <div class="notification-box">
+
+            <h3>Notifications</h3>
+
+            <p>TCS stock increased by 2%</p>
+
+            <p>Market is active</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Settings Modal -->
+    <div id="settings-modal"
+        class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>Settings</h2>
+
+            <button onclick="toggleTheme()">
+                Toggle Theme
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Analytics Modal -->
+    <div id="analytics-modal"
+        class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>Analytics</h2>
+
+            <p>
+                Real-time analytics powered by
+                FastAPI and Chart.js.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Editable Profile -->
+    <div id="profile-modal"
+        class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>Edit Profile</h2>
+
+            <input type="text"
+                id="edit-name"
+                placeholder="Enter name">
+
+            <input type="text"
+                id="edit-role"
+                placeholder="Enter role">
+
+            <button onclick="saveProfile()">
+                Save
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Loader -->
+    <div id="loader"
+        class="loader hidden">
+
+        <div class="spinner"></div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
