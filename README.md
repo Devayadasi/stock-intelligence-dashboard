@@ -81,3 +81,12 @@ stock-intelligence-dashboard/
 │
 ├── .gitignore
 ├── README.md
+
+
+## Live Demo
+
+Frontend:
+https://stock-intelligence-dashboard-gules.vercel.app
+
+Backend:
+https://stock-intelligence-dashboard-7muv.onrender.com
