@@ -85,14 +85,14 @@ async function loadStockData(symbol, element) {
 
         // DATA API
         const response = await fetch(
-            `http://127.0.0.1:8000/data/${symbol}`
+            `https://stock-intelligence-dashboard-7muv.onrender.com/data/${symbol}`
         );
 
         const data = await response.json();
 
         // SUMMARY API
         const summaryResponse = await fetch(
-            `http://127.0.0.1:8000/summary/${symbol}`
+            `https://stock-intelligence-dashboard-7muv.onrender.com/summary/${symbol}`
         );
 
         const summary =
@@ -358,7 +358,7 @@ async function compareStocks() {
     try {
 
         const response = await fetch(
-            `http://127.0.0.1:8000/compare?symbol1=${symbol1}&symbol2=${symbol2}`
+            `https://stock-intelligence-dashboard-7muv.onrender.com/compare?symbol1=${symbol1}&symbol2=${symbol2}`
         );
 
         const result =
